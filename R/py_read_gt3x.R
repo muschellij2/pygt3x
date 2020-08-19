@@ -2,18 +2,20 @@
 #' Read GT3X File
 #'
 #' @param file file to GT3X file
+#' @param create_time Should time stamps be created?
 #'
 #' @return A list of meta data, accelerometry data, and time stamps
 #' @export
 #'
 #' @examples
-py_read_gt3x = function(file) {
+py_read_gt3x = function(file,
+                        create_time = FALSE) {
   options(digits.secs = 2)
   path = system.file("gt3x", "gt3x", package = "pygt3x")
   gt3x = reticulate::import_from_path(
     "gt3x_functions", path,
     convert = FALSE)
-  out = gt3x$read_gt3x(file)
+  out = gt3x$read_gt3x(file, create_time = create_time)
   data = out[[0]]
   data = reticulate::py_to_r(data)
   colnames(data) = c("X", "Y", "Z")

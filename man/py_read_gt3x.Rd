@@ -4,10 +4,12 @@
 \alias{py_read_gt3x}
 \title{Read GT3X File}
 \usage{
-py_read_gt3x(file)
+py_read_gt3x(file, create_time = FALSE)
 }
 \arguments{
 \item{file}{file to GT3X file}
+
+\item{create_time}{Should time stamps be created?}
 }
 \value{
 A list of meta data, accelerometry data, and time stamps
