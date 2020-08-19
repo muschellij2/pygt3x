@@ -28,7 +28,7 @@ py_read_gt3x = function(path,
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
   out = gt3x$read_gt3x(path, create_time = create_time)
-  if (attr(path, "remove")) {
+  if (remove) {
     file.remove(path)
   }
 
@@ -51,11 +51,14 @@ py_read_gt3x = function(path,
   np = reticulate::import("numpy")
   dates = np$asarray(dates, dtype='datetime64[s]')
   dates = c(dates)
+  # if (old_format) {
+  # dates = meta$Start_Date + dates/meta$Sample_Rate
+  # }
   # convert the array to 64 bit milliseconds and add a time delta of a range of ms within a 1000ms window
-  step_size = 1 / meta$Sample_Rate
-  times = seq(0, 1 - step_size, by = step_size)
-  dates = c(outer(times, dates, "+"))
-  rm(times)
+  # step_size = 1 / meta$Sample_Rate
+  # times = seq(0, 1 - step_size, by = step_size)
+  # dates = c(outer(times, dates, "+"))
+  # rm(times)
 
 
 
