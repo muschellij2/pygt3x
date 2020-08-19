@@ -10,7 +10,7 @@ py_read_gt3x(file)
 \item{file}{file to GT3X file}
 }
 \value{
-A list of things
+A list of meta data, accelerometry data, and time stamps
 }
 \description{
 Read GT3X File
