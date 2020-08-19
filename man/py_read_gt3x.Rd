@@ -4,10 +4,10 @@
 \alias{py_read_gt3x}
 \title{Read GT3X File}
 \usage{
-py_read_gt3x(file, create_time = FALSE)
+py_read_gt3x(path, create_time = FALSE)
 }
 \arguments{
-\item{file}{file to GT3X file}
+\item{path}{file to GT3X file}
 
 \item{create_time}{Should time stamps be created?}
 }
@@ -16,4 +16,15 @@ A list of meta data, accelerometry data, and time stamps
 }
 \description{
 Read GT3X File
+}
+\examples{
+
+url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X\%2B.01.day.gt3x.zip"
+destfile = tempfile(fileext = ".zip")
+dl = download.file(url, destfile = destfile)
+gt3x_file = unzip(destfile, exdir = tempdir())
+gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
+path = gt3x_file
+
+res = py_read_gt3x(path)
 }
