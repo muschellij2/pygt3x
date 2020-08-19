@@ -1,0 +1,24 @@
+Package: pygt3x
+Title: Parse Actigraph 'GT3X'/'GT3X+' Accelerometer Data
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "John",
+           family = "Muschelli",
+           email = "muschellij2@gmail.com",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-6469-1750")),
+    person(given = "Shaheen",
+           family = "Syed",
+           role = c("aut"))
+    )
+Description: Implements a parser 
+    for actigraphs 'GT3X'/'GT3X+' data format (with extension '.gt3x') 
+    for accelerometer samples, called from Python. Activity samples can be easily read into a
+    matrix or data.frame. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: 
+    reticulate
