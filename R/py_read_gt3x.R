@@ -10,8 +10,9 @@
 py_read_gt3x = function(file) {
   options(digits.secs = 2)
   path = system.file("gt3x", "gt3x", package = "pygt3x")
-  gt3x = reticulate::import_from_path("gt3x_functions", path,
-                                      convert = FALSE)
+  gt3x = reticulate::import_from_path(
+    "gt3x_functions", path,
+    convert = FALSE)
   out = gt3x$read_gt3x(file)
   data = out[[0]]
   data = reticulate::py_to_r(data)
