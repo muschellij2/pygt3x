@@ -4,7 +4,7 @@
 \alias{py_read_gt3x}
 \title{Read GT3X File}
 \usage{
-py_read_gt3x(path, create_time = FALSE)
+py_read_gt3x(path, create_time = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{path}{file to GT3X file}

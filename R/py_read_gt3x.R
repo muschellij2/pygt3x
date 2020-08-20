@@ -20,7 +20,8 @@
 #' package = "pygt3x")
 #' res = py_read_gt3x(path)
 py_read_gt3x = function(path,
-                        create_time = FALSE) {
+                        create_time = FALSE,
+                        verbose = TRUE) {
   options(digits.secs = 2)
   import_path = system.file("gt3x", "gt3x", package = "pygt3x")
   gt3x = reticulate::import_from_path(
@@ -30,7 +31,7 @@ py_read_gt3x = function(path,
   path = unzip_zipped_gt3x(path, cleanup = TRUE)
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
-  out = gt3x$read_gt3x(path, create_time = create_time)
+  out = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose)
   if (remove) {
     file.remove(path)
   }
