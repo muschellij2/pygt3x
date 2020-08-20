@@ -16,12 +16,14 @@
 #' path = gt3x_file
 #'
 #' res = py_read_gt3x(path)
+#'
+#'
 #' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 #' package = "pygt3x")
 #' res = py_read_gt3x(path)
 py_read_gt3x = function(path,
                         create_time = FALSE,
-                        verbose = TRUE) {
+                        verbose = FALSE) {
   options(digits.secs = 2)
   import_path = system.file("gt3x", "gt3x", package = "pygt3x")
   gt3x = reticulate::import_from_path(
@@ -47,14 +49,25 @@ py_read_gt3x = function(path,
   meta$Start_Date = ticks2datetime(meta$Start_Date)
   meta$Stop_Date = ticks2datetime(meta$Stop_Date)
   meta$Download_Date = ticks2datetime(meta$Download_Date)
+  meta$Last_Sample_Time = ticks2datetime(meta$Last_Sample_Time)
   meta$Sample_Rate = as.numeric(meta$Sample_Rate)
 
   dates = out[[1]]
   dates = reticulate::py_to_r(dates)
-
-  np = reticulate::import("numpy")
-  dates = np$asarray(dates, dtype='datetime64[s]')
   dates = c(dates)
+
+  if (!inherits(dates, "POSIXt")  &
+      !inherits(dates, "Date") &
+      !inherits(dates, "POSIXct") &
+      dates[1] == 0) {
+    dates = meta$Start_Date + seq(0, nrow(data) - 1) / meta$Sample_Rate
+  } else {
+    # np = reticulate::import("numpy")
+    secs = seq(0, meta$Sample_Rate - 1)/meta$Sample_Rate
+    dates = sapply(dates, function(x) x + secs)
+    dates = c(dates)
+    dates = as.POSIXct(dates, tz = "GMT", origin = "1970-01-01")
+  }
   # if (old_format) {
   # dates = meta$Start_Date + dates/meta$Sample_Rate
   # }
