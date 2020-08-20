@@ -96,8 +96,8 @@ py_read_gt3x = function(path,
 #' @return A tibble of the data with zeros
 #' @export
 impute_zeros = function(data, dates, header) {
-  X = Y = Z = NULL
-  rm(list = c("X", "Y", "Z"))
+  time = X = Y = Z = NULL
+  rm(list = c("X", "Y", "Z", "time"))
 
   data$time = dates
 
