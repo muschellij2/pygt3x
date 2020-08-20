@@ -16,6 +16,9 @@
 #' path = gt3x_file
 #'
 #' res = py_read_gt3x(path)
+#' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
+#' package = "pygt3x")
+#' res = py_read_gt3x(path)
 py_read_gt3x = function(path,
                         create_time = FALSE) {
   options(digits.secs = 2)
