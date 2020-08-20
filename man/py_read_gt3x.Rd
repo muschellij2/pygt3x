@@ -10,6 +10,8 @@ py_read_gt3x(path, create_time = FALSE, verbose = FALSE)
 \item{path}{file to GT3X file}
 
 \item{create_time}{Should time stamps be created?}
+
+\item{verbose}{print diagnostic messages}
 }
 \value{
 A list of meta data, accelerometry data, and time stamps
@@ -27,9 +29,11 @@ gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
 path = gt3x_file
 
 res = py_read_gt3x(path)
+df = impute_zeros(res$data, res$dates, res$header)
 
 
 path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 package = "pygt3x")
 res = py_read_gt3x(path)
+out = impute_zeros(res$data, res$dates, res$header)
 }

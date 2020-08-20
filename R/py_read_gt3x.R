@@ -2,6 +2,7 @@
 #'
 #' @param path file to GT3X file
 #' @param create_time Should time stamps be created?
+#' @param verbose print diagnostic messages
 #'
 #' @return A list of meta data, accelerometry data, and time stamps
 #' @export
@@ -16,11 +17,13 @@
 #' path = gt3x_file
 #'
 #' res = py_read_gt3x(path)
+#' df = impute_zeros(res$data, res$dates, res$header)
 #'
 #'
 #' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 #' package = "pygt3x")
 #' res = py_read_gt3x(path)
+#' out = impute_zeros(res$data, res$dates, res$header)
 py_read_gt3x = function(path,
                         create_time = FALSE,
                         verbose = FALSE) {
@@ -33,18 +36,18 @@ py_read_gt3x = function(path,
   path = unzip_zipped_gt3x(path, cleanup = TRUE)
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
-  out = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose)
+  output = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose)
   if (remove) {
     file.remove(path)
   }
 
-  data = out[[0]]
+  data = output[[0]]
   data = reticulate::py_to_r(data)
   data = round_away_zero(data, 3)
   colnames(data) = c("X", "Y", "Z")
   data = tibble::as_tibble(data)
 
-  meta = out[[2]]
+  meta = output[[2]]
   meta = reticulate::py_to_r(meta)
   meta$Start_Date = ticks2datetime(meta$Start_Date)
   meta$Stop_Date = ticks2datetime(meta$Stop_Date)
@@ -52,9 +55,16 @@ py_read_gt3x = function(path,
   meta$Last_Sample_Time = ticks2datetime(meta$Last_Sample_Time)
   meta$Sample_Rate = as.numeric(meta$Sample_Rate)
 
-  dates = out[[1]]
+  dates = output[[1]]
   dates = reticulate::py_to_r(dates)
   dates = c(dates)
+
+
+  L = list(
+    data = data,
+    dates = dates,
+    header = meta
+  )
 
   if (!inherits(dates, "POSIXt")  &
       !inherits(dates, "Date") &
@@ -62,30 +72,56 @@ py_read_gt3x = function(path,
       dates[1] == 0) {
     dates = meta$Start_Date + seq(0, nrow(data) - 1) / meta$Sample_Rate
   } else {
+    if (! (nrow(data)/ length(dates) == meta$Sample_Rate)) {
+      warning("Size of data not length(dates)* sample_rate, returning data")
+      return(L)
+    }
     # np = reticulate::import("numpy")
     secs = seq(0, meta$Sample_Rate - 1)/meta$Sample_Rate
     dates = sapply(dates, function(x) x + secs)
     dates = c(dates)
     dates = as.POSIXct(dates, tz = "GMT", origin = "1970-01-01")
   }
-  # if (old_format) {
-  # dates = meta$Start_Date + dates/meta$Sample_Rate
-  # }
-  # convert the array to 64 bit milliseconds and add a time delta of a range of ms within a 1000ms window
-  # step_size = 1 / meta$Sample_Rate
-  # times = seq(0, 1 - step_size, by = step_size)
-  # dates = c(outer(times, dates, "+"))
-  # rm(times)
+  rm(output)
+  L$dates = dates
+  return(L)
+}
 
+#' Impute Zeros and Missing data
+#'
+#' @param data data output from \code{\link{py_read_gt3x}}
+#' @param dates dates vector from \code{\link{py_read_gt3x}}
+#' @param header header metadata from \code{\link{py_read_gt3x}}
+#'
+#' @return A tibble of the data with zeros
+#' @export
+impute_zeros = function(data, dates, header) {
+  X = Y = Z = NULL
+  rm(list = c("X", "Y", "Z"))
 
+  data$time = dates
 
-  rm(out)
-
-  L = list(
-    data = data,
-    dates = dates,
-    header = meta
+  rdates = range(dates)
+  rdates = range(
+    lubridate::floor_date(rdates),
+    lubridate::ceiling_date(rdates)
   )
+  # rdates[2] = max(rdates[2], meta$Last_Sample_Time, meta$Stop_Date, na.rm = TRUE)
+  rdates[1] = min(rdates[1], header$Start_Date)
+  rdates = seq(rdates[1], rdates[2] - lubridate::as.period(1, "sec"), by = "sec")
+  secs = seq(0, header$Sample_Rate - 1)/header$Sample_Rate
+  rdates = sapply(rdates, function(x) x + secs)
+  rdates = c(rdates)
+  rdates = as.POSIXct(rdates, tz = "GMT", origin = "1970-01-01")
+  df = tibble::tibble(time = rdates)
+  df = dplyr::left_join(df, data, by= "time")
+  df = dplyr::arrange(df, time)
+  df = dplyr::mutate(df,
+              X = ifelse(is.na(X), 0, X),
+              Y = ifelse(is.na(Y), 0, Y),
+              Z = ifelse(is.na(Z), 0, Z))
+  return(df)
+
 }
 
 

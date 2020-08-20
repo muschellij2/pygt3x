@@ -23,6 +23,9 @@ RoxygenNote: 7.1.1
 Imports: 
     reticulate,
     R.utils,
-    tools
+    tools,
+    lubridate,
+    dplyr,
+    tibble
 Suggests: 
     testthat
