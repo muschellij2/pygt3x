@@ -24,3 +24,5 @@ Imports:
     reticulate,
     R.utils,
     tools
+Suggests: 
+    testthat
