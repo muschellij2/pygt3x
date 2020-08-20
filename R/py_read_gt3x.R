@@ -37,7 +37,7 @@ py_read_gt3x = function(path,
 
   data = out[[0]]
   data = reticulate::py_to_r(data)
-  data = round(data, 3)
+  data = round_away_zero(data, 3)
   colnames(data) = c("X", "Y", "Z")
   data = tibble::as_tibble(data)
 

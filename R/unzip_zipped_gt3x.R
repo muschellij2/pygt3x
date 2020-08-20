@@ -1,3 +1,7 @@
+round_away_zero = function (x, n = 0) {
+  return(sign(x) * trunc(abs(x) * 10^n + 0.5)/10^n)
+}
+
 unzip_zipped_gt3x = function(path, cleanup = TRUE) {
   if (length(path) == 0) return(path)
   stopifnot(length(path) == 1)
