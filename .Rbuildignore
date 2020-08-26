@@ -5,3 +5,5 @@
 ^README\.Rmd$
 ^\.travis\.yml$
 ^inst/gt3x/\.git$
+^data-raw$
+^requirements\.txt$
