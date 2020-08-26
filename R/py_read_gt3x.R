@@ -9,6 +9,14 @@
 #'
 #' @examples
 #'
+#'
+#'
+#' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
+#' package = "pygt3x")
+#' res = py_read_gt3x(path)
+#' out = impute_zeros(res$data, res$dates, res$header)
+#'
+#' \dontrun{
 #' url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X%2B.01.day.gt3x.zip"
 #' destfile = tempfile(fileext = ".zip")
 #' dl = download.file(url, destfile = destfile)
@@ -19,11 +27,7 @@
 #' res = py_read_gt3x(path)
 #' df = impute_zeros(res$data, res$dates, res$header)
 #'
-#'
-#' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
-#' package = "pygt3x")
-#' res = py_read_gt3x(path)
-#' out = impute_zeros(res$data, res$dates, res$header)
+#' }
 py_read_gt3x = function(path,
                         create_time = FALSE,
                         verbose = FALSE) {

@@ -7,3 +7,4 @@
 ^inst/gt3x/\.git$
 ^data-raw$
 ^requirements\.txt$
+^inst/gt3x/\.github$
