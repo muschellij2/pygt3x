@@ -8,7 +8,7 @@ testthat::test_that("read.gt3x and py_read_gt3x agree", {
   class(rg) = "data.frame"
 
 
-  res = py_read_gt3x(path, verbose = FALSE)
+  res = pygt3x::py_read_gt3x(path, verbose = FALSE)
   test = res$data
   zero = rowSums(test[, c("X", "Y", "Z")] == 0) == 3
   stopifnot(!any(zero))
