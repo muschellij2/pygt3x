@@ -14,14 +14,15 @@ testthat::test_that("OLD read.gt3x and py_read_gt3x agree", {
   class(rg) = "data.frame"
 
 
-  res = py_read_gt3x(path, verbose = FALSE)
-  test = res$data
+  res = pygt3x::py_read_gt3x(path, verbose = FALSE)
+  test = pygt3x::impute_zeros(res$data, res$dates, res$header)
   max(test$X)
   max(test$Y)
   max(test$Z)
   zero = rowSums(test[, c("X", "Y", "Z")] == 0) == 3
-  d = abs(as.matrix(rg) - as.matrix(test))
+  d = abs(as.matrix(rg) - as.matrix(test[, c("X", "Y", "Z")]))
   bad = which(rowSums(d > 0) > 0)
+  test[bad,]
   testthat::expect_true(max(d) == 0)
 
 })

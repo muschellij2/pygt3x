@@ -100,9 +100,18 @@ py_read_gt3x = function(path,
 #' @return A tibble of the data with zeros
 #' @export
 impute_zeros = function(data, dates, header) {
+  if (missing(dates) & missing(header)) {
+    dates = data$dates
+    header = data$header
+    data = data$data
+  }
   time = X = Y = Z = NULL
   rm(list = c("X", "Y", "Z", "time"))
 
+  stopifnot(!is.null(data),
+            !is.null(dates),
+            !is.null(header)
+            )
   data$time = dates
 
   rdates = range(dates)
