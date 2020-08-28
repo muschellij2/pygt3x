@@ -8,19 +8,17 @@ path = gt3x_file
 testthat::test_that("Reading in Old format works", {
   res = pygt3x::py_read_gt3x(path, verbose = FALSE)
   res = pygt3x::impute_zeros(res$data, res$dates, res$header)
-  testthat::expect_equal(colnames(res), c("X", "Y", "Z"))
+  testthat::expect_equal(colnames(res), c("time", "X", "Y", "Z"))
 
-  cm <- unname(colMeans(res))
+  cm <- unname(colMeans(res[, c("X", "Y", "Z")]))
   testthat::expect_equal(cm, c(
     -0.228402625555557,
     0.447592941851854,
     0.11958707074074
-  ))
-  testthat::expect_equal(unname(res[4823, "Y"]), 0.528)
+  ), tolerance = 1e-5)
+  testthat::expect_equal(unname(res[4823, "Y", drop = TRUE]), 0.528)
 
   all_attr <- attributes(res)
-  testthat::expect_true(all_attr$old_version)
-  testthat::expect_equal(all_attr$sample_rate, 30)
   rm(res)
 })
 
