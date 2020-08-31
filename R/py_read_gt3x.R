@@ -31,12 +31,12 @@
 py_read_gt3x = function(path,
                         create_time = FALSE,
                         verbose = FALSE) {
+  path = normalizePath(path, winslash = "/", mustWork = TRUE)
   options(digits.secs = 2)
   import_path = system.file("gt3x", "gt3x", package = "pygt3x")
   gt3x = reticulate::import_from_path(
     "gt3x_functions", import_path,
     convert = FALSE)
-  path = normalizePath(path, winslash = "/", mustWork = TRUE)
   path = unzip_zipped_gt3x(path, cleanup = TRUE)
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
