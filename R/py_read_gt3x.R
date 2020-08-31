@@ -50,6 +50,15 @@ py_read_gt3x = function(path,
   data = round_away_zero(data, 3)
   colnames(data) = c("X", "Y", "Z")
   data = tibble::as_tibble(data)
+  if (any(abs(data) > 20)) {
+    warning(
+      paste0(
+        "Really large values of X/Y/Z",
+        "- rerun and see if still there",
+        " also open issue on ",
+        "https://github.com/muschellij2/pygt3x/issues")
+    )
+  }
 
   meta = output[[2]]
   meta = reticulate::py_to_r(meta)
@@ -111,7 +120,7 @@ impute_zeros = function(data, dates, header) {
   stopifnot(!is.null(data),
             !is.null(dates),
             !is.null(header)
-            )
+  )
   data$time = dates
 
   rdates = range(dates)
@@ -130,9 +139,9 @@ impute_zeros = function(data, dates, header) {
   df = dplyr::left_join(df, data, by= "time")
   df = dplyr::arrange(df, time)
   df = dplyr::mutate(df,
-              X = ifelse(is.na(X), 0, X),
-              Y = ifelse(is.na(Y), 0, Y),
-              Z = ifelse(is.na(Z), 0, Z))
+                     X = ifelse(is.na(X), 0, X),
+                     Y = ifelse(is.na(Y), 0, Y),
+                     Z = ifelse(is.na(Z), 0, Z))
   return(df)
 
 }
