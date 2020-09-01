@@ -162,6 +162,10 @@ impute_zeros = function(data, dates, header) {
 
 }
 
+#' @rdname impute_zeros
+#' @export
+impute_zeroes = impute_zeros
+
 
 ticks2datetime = function (ticks, tz = "GMT")
 {
@@ -173,3 +177,4 @@ ticks2datetime = function (ticks, tz = "GMT")
   datetime <- as.POSIXct(seconds, origin = "0001-01-01", tz = tz)
   datetime
 }
+

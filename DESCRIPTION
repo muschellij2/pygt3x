@@ -1,6 +1,6 @@
 Package: pygt3x
 Title: Parse Actigraph 'GT3X'/'GT3X+' Accelerometer Data
-Version: 0.0.6.9000
+Version: 0.0.7.9000
 Authors@R: c(
     person(given = "John",
            family = "Muschelli",

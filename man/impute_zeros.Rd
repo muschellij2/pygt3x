@@ -2,9 +2,12 @@
 % Please edit documentation in R/py_read_gt3x.R
 \name{impute_zeros}
 \alias{impute_zeros}
+\alias{impute_zeroes}
 \title{Impute Zeros and Missing data}
 \usage{
 impute_zeros(data, dates, header)
+
+impute_zeroes(data, dates, header)
 }
 \arguments{
 \item{data}{data output from \code{\link{py_read_gt3x}}}
