@@ -9,14 +9,13 @@
 #'
 #' @examples
 #'
-#'
-#'
 #' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 #' package = "pygt3x")
 #' res = py_read_gt3x(path)
 #' out = impute_zeros(res$data, res$dates, res$header)
 #'
 #' \dontrun{
+#'
 #' url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X%2B.01.day.gt3x.zip"
 #' destfile = tempfile(fileext = ".zip")
 #' dl = download.file(url, destfile = destfile)
@@ -40,7 +39,8 @@ py_read_gt3x = function(path,
   path = unzip_zipped_gt3x(path, cleanup = TRUE)
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
-  output = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose)
+  output = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose,
+                          trim = FALSE)
   if (remove) {
     file.remove(path)
   }
@@ -97,6 +97,12 @@ py_read_gt3x = function(path,
   }
   rm(output)
   L$dates = dates
+  if (!is.null(meta$old_format) && meta$old_format) {
+    if (!is.null(meta$est_n_samples)) {
+      L$data = L$data[seq(meta$est_n_samples),]
+      L$dates = L$dates[seq(meta$est_n_samples)]
+    }
+  }
   return(L)
 }
 
@@ -117,10 +123,15 @@ impute_zeros = function(data, dates, header) {
   time = X = Y = Z = NULL
   rm(list = c("X", "Y", "Z", "time"))
 
-  stopifnot(!is.null(data),
-            !is.null(dates),
-            !is.null(header)
+  stopifnot(
+    !is.null(data),
+    !is.null(dates),
+    !is.null(header)
   )
+  old_format = header$old_format
+  if (is.null(old_format)) {
+    old_format = FALSE
+  }
   data$time = dates
 
   rdates = range(dates)
@@ -136,6 +147,11 @@ impute_zeros = function(data, dates, header) {
   rdates = c(rdates)
   rdates = as.POSIXct(rdates, tz = "GMT", origin = "1970-01-01")
   df = tibble::tibble(time = rdates)
+  if (old_format) {
+    df = dplyr::filter(
+      df, dplyr::between(time, min(data$time), max(data$time))
+    )
+  }
   df = dplyr::left_join(df, data, by= "time")
   df = dplyr::arrange(df, time)
   df = dplyr::mutate(df,
