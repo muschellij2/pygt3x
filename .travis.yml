@@ -4,15 +4,10 @@ language: R
 cache: packages
 
 before_install:
+    - fname=travis_helpers.sh
+    - wget -O ${fname} http://bit.ly/travis_helpers
+    - cat ${fname}; source ${fname}; rm ${fname}
     - pip install --user numpy
     - export TRAVIS_PYTHON_VERSION=3.7
-    - version=${TRAVIS_PYTHON_VERSION}
-    - echo "TRAVIS_PYTHON_VERSION is ${TRAVIS_PYTHON_VERSION}";
-    - cat requirements.txt
-    - py_version=python${version}    
-    - curl https://bootstrap.pypa.io/get-pip.py | sudo ${py_version} ; 
-    - # sudo pip install --upgrade --ignore-installed -r requirements.txt || exit 0;
-    - pip install --quiet --upgrade pip || true; 
-    - sudo -H pip install --quiet --upgrade pip || true; 
-    - sudo ${py_version} -m pip install --upgrade pip || true;
-    - ${py_version} -m pip install $@ --upgrade --quiet --ignore-installed -r requirements.txt || true;
+    - setup_python ${TRAVIS_PYTHON_VERSION}.7 false ;
+    - install_python_requirements ;
