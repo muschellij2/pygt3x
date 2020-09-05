@@ -34,3 +34,5 @@ Suggests:
     readr
 Depends: 
     R (>= 2.10)
+Remotes:
+	muschellij2/read.gt3x
