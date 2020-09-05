@@ -28,6 +28,9 @@ Imports:
     dplyr,
     tibble
 Suggests: 
-    testthat
+    testthat,
+    read.gt3x (>= 0.3.0),
+    zoo,
+    readr
 Depends: 
     R (>= 2.10)

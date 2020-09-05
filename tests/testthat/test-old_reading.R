@@ -24,6 +24,7 @@ testthat::test_that("Reading in Old format works", {
 
 testthat::test_that("OLD read.gt3x and py_read_gt3x agree", {
   testthat::skip("Not working")
+  skip_read_gt3x()
   rg = read.gt3x::read.gt3x(path, verbose = FALSE,
                             asDataFrame = TRUE)
   rg_time = rg$time
@@ -48,6 +49,7 @@ testthat::test_that("OLD read.gt3x and py_read_gt3x agree", {
 
 testthat::test_that("imputing zeros read.gt3x and py_read_gt3x agree", {
   testthat::skip("Not working")
+  skip_read_gt3x()
   rg = read.gt3x::read.gt3x(path, verbose = FALSE,
                             imputeZeroes = TRUE,
                             asDataFrame = TRUE)
