@@ -80,6 +80,7 @@ py_read_gt3x = function(path,
     header = meta
   )
 
+  L$dates_created = TRUE
   if (!inherits(dates, "POSIXt")  &
       !inherits(dates, "Date") &
       !inherits(dates, "POSIXct") &
@@ -87,7 +88,12 @@ py_read_gt3x = function(path,
     dates = meta$Start_Date + seq(0, nrow(data) - 1) / meta$Sample_Rate
   } else {
     if (! (nrow(data)/ length(dates) == meta$Sample_Rate)) {
-      warning("Size of data not length(dates)* sample_rate, returning data")
+      warning(
+        paste0(
+          "Size of data not length(dates)* sample_rate, ",
+          "not making POSIXct dates, and returning data as is")
+      )
+      L$dates_created = FALSE
       return(L)
     }
     # np = reticulate::import("numpy")
