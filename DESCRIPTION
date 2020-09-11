@@ -26,12 +26,13 @@ Imports:
     tools,
     lubridate,
     dplyr,
-    tibble
+    tibble,
+    zoo,
+    utils,
+    readr
 Suggests: 
     testthat,
-    read.gt3x (>= 0.3.0),
-    zoo,
-    readr
+    read.gt3x (>= 0.3.0)
 Depends: 
     R (>= 2.10)
 Remotes:

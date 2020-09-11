@@ -40,12 +40,14 @@ testthat::test_that("imputing zeros read.gt3x and py_read_gt3x agree", {
   testthat::expect_true(all(out$Z == 0))
 
   range_dates = range(res$time)
-  range_aj = range(out$time)
-  # test that all the non-joined values are outside of the data
-  # aka nothing in the "middle"
-  testthat::expect_false(
-    any(dplyr::between(range_aj, range_dates[1], range_dates[2]))
+  if (nrow(out) > 0) {
+    range_aj = range(out$time)
+    # test that all the non-joined values are outside of the data
+    # aka nothing in the "middle"
+    testthat::expect_false(
+      any(dplyr::between(range_aj, range_dates[1], range_dates[2]))
     )
+  }
 
 
   out = dplyr::anti_join(res, rg, by = "time")

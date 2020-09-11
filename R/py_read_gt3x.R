@@ -141,11 +141,18 @@ impute_zeros = function(data, dates, header) {
   }
   data$time = dates
 
+
   rdates = range(dates)
   rdates = range(
     lubridate::floor_date(rdates),
     lubridate::ceiling_date(rdates)
   )
+  if (!is.null(header$Last_Sample_Time) && is.na(header$Last_Sample_Time)) {
+    header$Last_Sample_Time = NULL
+  }
+  if (!old_format & !is.null(header$Last_Sample_Time)) {
+    rdates[2] = max(rdates[2], header$Last_Sample_Time)
+  }
   # rdates[2] = max(rdates[2], meta$Last_Sample_Time, meta$Stop_Date, na.rm = TRUE)
   rdates[1] = min(rdates[1], header$Start_Date)
   rdates = seq(rdates[1], rdates[2] - lubridate::as.period(1, "sec"), by = "sec")
