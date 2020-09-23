@@ -87,10 +87,11 @@ py_read_gt3x = function(path,
       dates[1] == 0) {
     dates = meta$Start_Date + seq(0, nrow(data) - 1) / meta$Sample_Rate
   } else {
-    if (! (nrow(data)/ length(dates) == meta$Sample_Rate)) {
+    nr = as.integer(nrow(data) / length(dates))
+    if (! ( nr == as.integer(meta$Sample_Rate) ) ) {
       warning(
         paste0(
-          "Size of data not length(dates)* sample_rate, ",
+          "Size of data not length(dates) * sample_rate, ",
           "not making POSIXct dates, and returning data as is")
       )
       L$dates_created = FALSE
