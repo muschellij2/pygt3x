@@ -34,6 +34,24 @@ py_read_gt3x = function(path,
   path = normalizePath(path, winslash = "/", mustWork = TRUE)
   options(digits.secs = 2)
   import_path = system.file("gt3x", "gt3x", package = "pygt3x")
+  packages = c("os",
+               "logging",
+               "zipfile",
+               "numpy",
+               "struct",
+               "bitstring",
+               "tempfile")
+  sapply(packages, reticulate::py_module_available)
+  res = sapply(packages, reticulate::py_module_available)
+  if (any(!res)) {
+    no_pkg = names(res)[!res]
+    msg = paste0(paste(no_pkg, collapse = ", "),
+           " packages not found, please try",
+           " to install using reticulate::py_install(",
+           dput(no_pkg), ", pip = TRUE)\n",
+           "pygt3x may not work")
+    warning(msg)
+  }
   gt3x = reticulate::import_from_path(
     "gt3x_functions", import_path,
     convert = FALSE)
