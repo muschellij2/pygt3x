@@ -9,7 +9,7 @@ before_install:
     - cat ${fname}; source ${fname}; rm ${fname}
     - pip install --user numpy
     - export TRAVIS_PYTHON_VERSION=3.7
-    - setup_python ${TRAVIS_PYTHON_VERSION}.7 false ;
+    - setup_python ${TRAVIS_PYTHON_VERSION} false ;
     - install_python_requirements ;
 
 os:
