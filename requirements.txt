@@ -1,7 +1,2 @@
-os
-logging
-zipfile
 numpy
-struct
 bitstring
-tempfile
