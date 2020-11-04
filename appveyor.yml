@@ -31,7 +31,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - if exist "requirements.txt" conda update -q conda
   - if exist "requirements.txt" conda info -a
-  - if exist "requirements.txt" conda create -q -n test-environment python="%PYTHON_VERSION%" --file requirements.txt
+  - if exist "requirements.txt" conda create -q -n r-reticulate python="%PYTHON_VERSION%" --file requirements.txt
   - git config core.longpaths true
   - git config --system core.longpaths true
 
