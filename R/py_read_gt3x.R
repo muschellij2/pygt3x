@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' reticulate::py_config()
 #'
 #' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 #' package = "pygt3x")
