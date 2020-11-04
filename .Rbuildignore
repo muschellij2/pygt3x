@@ -8,3 +8,4 @@
 ^data-raw$
 ^requirements\.txt$
 ^inst/gt3x/\.github$
+^\.github$
