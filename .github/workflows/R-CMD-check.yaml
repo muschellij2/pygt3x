@@ -72,28 +72,7 @@ jobs:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')
-
-      - name: "Setup Python"
-        uses: conda-incubator/setup-miniconda@v1.7.0
-        with:
-          auto-update-conda: true
-          python-version: '3.7'
-          activate-environment: r-reticulate
-
-
-      - name: "Conda path"
-        run: |
-          echo "/usr/local/miniconda/condabin" >> $GITHUB_PATH || true ;
-          echo "/usr/local/miniconda/condabin" >> $PATH  || true ;
-          conda activate r-reticulate || true ;
-
-
-      - name: "Conda info"
-        shell: bash -l {0}      
-        run: |
-          conda info
-          conda list        
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')   
 
 
       - name: Install dependencies
@@ -101,6 +80,16 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
+
+      - name: Install python dependencies
+        run: |
+          check = file.exists("requirements.txt")
+          if (!requireNamespace("reticulate")  & check) install.packages("reticulate")
+          if (check) reticulate::install_miniconda()
+          if (check) x = readLines("requirements.txt")
+          if (check) reticulate::py_install(x)
+        shell: Rscript {0}        
+ 
 
       - name: Session info
         run: |
