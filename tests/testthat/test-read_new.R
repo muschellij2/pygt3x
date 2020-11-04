@@ -16,7 +16,7 @@ download = function(url, name) {
 }
 gt3x_file = download(idf$download_url_gt3x, idf$name_gt3x)
 csv_file = download(idf$download_url_csv, idf$name_csv)
-
+print(gt3x_file)
 testthat::test_that("read.gt3x and py_read_gt3x agree", {
   skip_read_gt3x()
 
@@ -29,6 +29,7 @@ testthat::test_that("read.gt3x and py_read_gt3x agree", {
 
   skip_python()
 
+  stopifnot(file.exists(gt3x_file))
   res = pygt3x::py_read_gt3x(gt3x_file, verbose = FALSE)
   test = res$data
   zero = rowSums(test[, c("X", "Y", "Z")] == 0) == 3
