@@ -83,14 +83,10 @@ jobs:
 
 
       - name: "Conda info"
-        run: conda info
-      - name: "Conda list"
-        run: conda list  
-
-      - name: "Conda info"
-        run: conda info
-      - name: "Conda list"
-        run: conda list       
+        shell: bash -l {0}      
+        run: |
+          conda info
+          conda list       
 
 
       - name: Install dependencies
