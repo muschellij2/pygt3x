@@ -37,7 +37,7 @@ install_python_requirements = function(
   res = check_python_requirements(packages = packages)
   if (any(!res) || force) {
     no_pkg = names(res)[!res]
-    reticulate::py_install(no_pkg)
+    reticulate::py_install(no_pkg, channel = c("defaults", "conda-forge", "bioconda"))
   }
   res = check_python_requirements(packages = packages)
   return(res)
