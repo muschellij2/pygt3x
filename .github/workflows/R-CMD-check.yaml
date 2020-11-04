@@ -75,7 +75,7 @@ jobs:
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')
 
       - name: "Setup Python"
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda
         with:
           auto-update-conda: true
           python-version: '3.7'
