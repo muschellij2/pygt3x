@@ -1,9 +1,6 @@
 have_python_requirements = function(
   packages = pygt3x::pygt3x_required_modules
 ) {
-  if (!reticulate::py_available(initialize = TRUE)) {
-    return(FALSE)
-  }
   res = check_python_requirements(packages)
   if (any(!res)) {
     no_pkg = names(res)[!res]
@@ -23,6 +20,9 @@ have_python_requirements = function(
 check_python_requirements = function(
   packages = pygt3x::pygt3x_required_modules
 ) {
+  if (!reticulate::py_available(initialize = TRUE)) {
+    return(FALSE)
+  }
   n = names(packages)
   names(packages)[n == ""] = packages[n == ""]
   sapply(packages, reticulate::py_module_available)
