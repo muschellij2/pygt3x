@@ -23,21 +23,24 @@ Read GT3X File
 
 path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 package = "pygt3x")
+if (pygt3x:::have_python_requirements()) {
 res = py_read_gt3x(path)
+}
 
 \dontrun{
-out = impute_zeros(res$data, res$dates, res$header)
-out = impute_zeros(res)
+if (pygt3x:::have_python_requirements()) {
+  out = impute_zeros(res$data, res$dates, res$header)
+  out = impute_zeros(res)
 
-url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X\%2B.01.day.gt3x.zip"
-destfile = tempfile(fileext = ".zip")
-dl = download.file(url, destfile = destfile)
-gt3x_file = unzip(destfile, exdir = tempdir())
-gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
-path = gt3x_file
+  url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X\%2B.01.day.gt3x.zip"
+  destfile = tempfile(fileext = ".zip")
+  dl = download.file(url, destfile = destfile)
+  gt3x_file = unzip(destfile, exdir = tempdir())
+  gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
+  path = gt3x_file
 
-res = py_read_gt3x(path)
-df = impute_zeros(res$data, res$dates, res$header)
-
+  res = py_read_gt3x(path)
+  df = impute_zeros(res$data, res$dates, res$header)
+}
 }
 }

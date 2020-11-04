@@ -11,6 +11,7 @@ before_install:
     - export TRAVIS_PYTHON_VERSION=3.7
     - setup_python ${TRAVIS_PYTHON_VERSION} false ;
     - install_python_requirements ;
+    - reticulate_install_python_requirements ;
 
 os:
   - linux

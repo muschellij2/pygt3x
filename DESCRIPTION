@@ -1,6 +1,6 @@
 Package: pygt3x
 Title: Parse Actigraph 'GT3X'/'GT3X+' Accelerometer Data
-Version: 0.0.9.9001
+Version: 0.0.10.0
 Authors@R: c(
     person(given = "John",
            family = "Muschelli",
@@ -19,6 +19,9 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
+SystemRequirements: "conda (python>=3.6 logging zipfile tempfile numpy ( >= 1.14.0) bitstring);
+    python-minimal;
+    Python (>=3.6), logging zipfile tempfile numpy ( >= 1.14.0) bitstring"
 RoxygenNote: 7.1.1
 Imports: 
     reticulate,
@@ -36,4 +39,4 @@ Suggests:
 Depends: 
     R (>= 2.10)
 Remotes:
-	muschellij2/read.gt3x
+    muschellij2/read.gt3x

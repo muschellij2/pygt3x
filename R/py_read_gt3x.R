@@ -11,22 +11,25 @@
 #'
 #' path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
 #' package = "pygt3x")
+#' if (pygt3x:::have_python_requirements()) {
 #' res = py_read_gt3x(path)
+#' }
 #'
 #' \dontrun{
-#' out = impute_zeros(res$data, res$dates, res$header)
-#' out = impute_zeros(res)
+#' if (pygt3x:::have_python_requirements()) {
+#'   out = impute_zeros(res$data, res$dates, res$header)
+#'   out = impute_zeros(res)
 #'
-#' url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X%2B.01.day.gt3x.zip"
-#' destfile = tempfile(fileext = ".zip")
-#' dl = download.file(url, destfile = destfile)
-#' gt3x_file = unzip(destfile, exdir = tempdir())
-#' gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
-#' path = gt3x_file
+#'   url = "https://github.com/THLfi/read.gt3x/files/3522749/GT3X%2B.01.day.gt3x.zip"
+#'   destfile = tempfile(fileext = ".zip")
+#'   dl = download.file(url, destfile = destfile)
+#'   gt3x_file = unzip(destfile, exdir = tempdir())
+#'   gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
+#'   path = gt3x_file
 #'
-#' res = py_read_gt3x(path)
-#' df = impute_zeros(res$data, res$dates, res$header)
-#'
+#'   res = py_read_gt3x(path)
+#'   df = impute_zeros(res$data, res$dates, res$header)
+#' }
 #' }
 py_read_gt3x = function(path,
                         create_time = FALSE,
@@ -34,24 +37,7 @@ py_read_gt3x = function(path,
   path = normalizePath(path, winslash = "/", mustWork = TRUE)
   options(digits.secs = 2)
   import_path = system.file("gt3x", "gt3x", package = "pygt3x")
-  packages = c("os",
-               "logging",
-               "zipfile",
-               "numpy",
-               "struct",
-               "bitstring",
-               "tempfile")
-  sapply(packages, reticulate::py_module_available)
-  res = sapply(packages, reticulate::py_module_available)
-  if (any(!res)) {
-    no_pkg = names(res)[!res]
-    msg = paste0(paste(no_pkg, collapse = ", "),
-           " packages not found, please try",
-           " to install using reticulate::py_install(",
-           dput(no_pkg), ", pip = TRUE)\n",
-           "pygt3x may not work")
-    warning(msg)
-  }
+  check_python_requirements()
   gt3x = reticulate::import_from_path(
     "gt3x_functions", import_path,
     convert = FALSE)
