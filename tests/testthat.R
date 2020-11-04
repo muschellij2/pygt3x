@@ -13,4 +13,9 @@ skip_readr = function() {
   testthat::skip_if_not_installed("readr")
 }
 
+skip_python = function() {
+  testthat::skip_if(!pygt3x:::have_python_requirements(),
+                    message = "Python, or Python module not installed")
+}
+
 test_check("pygt3x")

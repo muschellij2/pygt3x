@@ -2,6 +2,7 @@ path = system.file("extdata", "TAS1H30182785_2019-09-17.gt3x",
                    package = "pygt3x")
 
 testthat::test_that("read.gt3x and py_read_gt3x agree", {
+  skip_python()
   rg = read.gt3x::read.gt3x(path, verbose = FALSE,
                             debug = FALSE, asDataFrame = TRUE)
   rg = rg[, c("X", "Y", "Z")]
@@ -19,6 +20,7 @@ testthat::test_that("read.gt3x and py_read_gt3x agree", {
 
 
 testthat::test_that("imputing zeros read.gt3x and py_read_gt3x agree", {
+  skip_python()
   rg = read.gt3x::read.gt3x(path, verbose = FALSE,
                             imputeZeroes = TRUE,
                             debug = FALSE, asDataFrame = TRUE)

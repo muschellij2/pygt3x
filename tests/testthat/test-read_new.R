@@ -19,6 +19,7 @@ csv_file = download(idf$download_url_csv, idf$name_csv)
 
 testthat::test_that("read.gt3x and py_read_gt3x agree", {
   skip_read_gt3x()
+
   rg = read.gt3x::read.gt3x(gt3x_file, verbose = 2,
                             debug = FALSE, asDataFrame = TRUE)
   at = attributes(rg)
@@ -26,6 +27,7 @@ testthat::test_that("read.gt3x and py_read_gt3x agree", {
   rg = rg[, c("X", "Y", "Z")]
   class(rg) = "data.frame"
 
+  skip_python()
 
   res = pygt3x::py_read_gt3x(gt3x_file, verbose = FALSE)
   test = res$data
@@ -42,6 +44,7 @@ testthat::test_that("CSV an py_read_gt3x agree", {
   hdr = csv$header
   csv = csv$data
 
+  skip_python()
 
   test = pygt3x::py_read_gt3x(gt3x_file, verbose = FALSE)
   thdr = test$header

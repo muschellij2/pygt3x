@@ -6,6 +6,8 @@ gt3x_file = gt3x_file[!grepl("__MACOSX", gt3x_file)]
 path = gt3x_file
 
 testthat::test_that("Reading in Old format works", {
+  skip_python()
+
   res = pygt3x::py_read_gt3x(path, verbose = FALSE)
   res = pygt3x::impute_zeros(res$data, res$dates, res$header)
   testthat::expect_equal(colnames(res), c("time", "X", "Y", "Z"))
@@ -31,6 +33,7 @@ testthat::test_that("OLD read.gt3x and py_read_gt3x agree", {
   rg = rg[, c("X", "Y", "Z")]
   class(rg) = "data.frame"
 
+  skip_python()
 
   res = pygt3x::py_read_gt3x(path, verbose = FALSE)
   test = pygt3x::impute_zeros(res$data, res$dates, res$header)
@@ -65,7 +68,7 @@ testthat::test_that("imputing zeros read.gt3x and py_read_gt3x agree", {
 
   testthat::expect_equal(rg, imp_rg)
 
-
+  skip_python()
   res = py_read_gt3x(path, verbose = FALSE)
   res = impute_zeros(res$data, res$dates, res$header)
 
