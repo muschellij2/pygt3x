@@ -14,13 +14,27 @@ cache:
   - C:\RLibrary
 
 environment:
-  NOT_CRAN: true
+  global:
+    NOT_CRAN: true
+    USE_RTOOLS: true
+    WARNINGS_ARE_ERRORS: 1
+    _R_CHECK_FORCE_SUGGESTS_: 0
+    PYTHON_VERSION: 3.6
+    MINICONDA: C:\Miniconda3-x64
   # env vars that may need to be set, at least temporarily, from time to time
   # see https://github.com/krlmlr/r-appveyor#readme for details
   # USE_RTOOLS: true
   # R_REMOTES_STANDALONE: true
 
 # Adapt as necessary starting from here
+install:
+  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - conda config --set always_yes yes --set changeps1 no
+  - if exist "requirements.txt" conda update -q conda
+  - if exist "requirements.txt" conda info -a
+  - if exist "requirements.txt" conda create -q -n test-environment python="%PYTHON_VERSION%" --file requirements.txt
+  - git config core.longpaths true
+  - git config --system core.longpaths true
 
 build_script:
   - travis-tool.sh install_deps
