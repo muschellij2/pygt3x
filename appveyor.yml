@@ -25,7 +25,7 @@ environment:
 
 # Adapt as necessary starting from here
 install:
-  ps: Bootstrap
+  - ps: Bootstrap
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - conda config --set always_yes yes --set changeps1 no
   - if exist "requirements.txt" conda update -q conda
