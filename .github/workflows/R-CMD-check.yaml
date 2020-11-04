@@ -86,6 +86,7 @@ jobs:
         run: |
           echo "/usr/local/miniconda/condabin" >> $GITHUB_PATH || true ;
           echo "/usr/local/miniconda/condabin" >> $PATH  || true ;
+          conda activate r-reticulate || true ;
 
 
       - name: "Conda info"
