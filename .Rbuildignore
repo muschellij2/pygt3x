@@ -4,8 +4,8 @@
 ^appveyor\.yml$
 ^README\.Rmd$
 ^\.travis\.yml$
-^inst/gt3x/\.git$
 ^data-raw$
 ^requirements\.txt$
+^inst/gt3x/\.git$
 ^inst/gt3x/\.github$
 ^\.github$
