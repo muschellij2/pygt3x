@@ -10,7 +10,7 @@ idf = list(
 download = function(url, name) {
   destfile = file.path(tempdir(), name)
   if (!file.exists(destfile)) {
-    download.file(url, destfile)
+    download.file(url, destfile, mode = "wb")
   }
   destfile
 }
