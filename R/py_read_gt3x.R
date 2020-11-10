@@ -71,7 +71,8 @@ py_read_gt3x = function(path,
   }
   if (!is.matrix(data)) {
     warning("conversion from python to R may not have worked, trying again")
-    data = reticulate:::py_to_r.numpy.ndarray(data)
+    # data = reticulate:::py_to_r.numpy.ndarray(data)
+    data = reticulate::py_to_r(data)
   }
   if (!is.matrix(data)) {
     print(data)
