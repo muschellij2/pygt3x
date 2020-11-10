@@ -4,6 +4,8 @@ language: R
 cache: packages
 
 before_install:
+    - git submodule init
+    - git submodule update    
     - fname=travis_helpers.sh
     - wget -O ${fname} http://bit.ly/travis_helpers
     - cat ${fname}; source ${fname}; rm ${fname}

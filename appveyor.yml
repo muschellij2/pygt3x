@@ -16,7 +16,7 @@ environment:
     USE_RTOOLS: true
     WARNINGS_ARE_ERRORS: 1
     _R_CHECK_FORCE_SUGGESTS_: 0
-    PYTHON_VERSION: 3.6
+    PYTHON_VERSION: 3.7
     MINICONDA: C:\Miniconda3-x64
     RETICULATE_PYTHON: C:\Miniconda3-x64\python.exe    
   # env vars that may need to be set, at least temporarily, from time to time
@@ -27,6 +27,8 @@ environment:
 # Adapt as necessary starting from here
 install:
   - ps: Bootstrap
+  - git submodule init
+  - git submodule update  
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
   - conda config --set always_yes yes --set changeps1 no
   - if exist "requirements.txt" conda update -q conda
