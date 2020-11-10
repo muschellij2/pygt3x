@@ -9,6 +9,9 @@ testthat::test_that("Reading in Old format works", {
   skip_python()
 
   res = pygt3x::py_read_gt3x(path, verbose = FALSE)
+  print(utils::head(res$data))
+  print(utils::head(res$dates))
+  print(utils::head(res$header))
   res = pygt3x::impute_zeros(res$data, res$dates, res$header)
   testthat::expect_equal(colnames(res), c("time", "X", "Y", "Z"))
 
