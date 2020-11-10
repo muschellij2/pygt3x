@@ -45,14 +45,30 @@ py_read_gt3x = function(path,
   path = unzip_zipped_gt3x(path, cleanup = TRUE)
   remove = attr(path, "remove")
   attr(path, "remove") = NULL
-  output = gt3x$read_gt3x(path, create_time = create_time, verbose = verbose,
+  output = gt3x$read_gt3x(path, create_time = create_time,
+                          verbose = verbose > 0,
                           trim = FALSE)
   if (remove) {
     file.remove(path)
   }
 
+  if (verbose > 1) {
+    print("output things")
+    print(length(output))
+    print(class(output))
+  }
   data = output[[0]]
+  if (verbose > 1) {
+    print("data things py")
+    print(class(data))
+    print(data)
+  }
   data = reticulate::py_to_r(data)
+  if (verbose > 1) {
+    print("data things")
+    print(class(data))
+    print(utils::head(data))
+  }
   data = round_away_zero(data, 3)
   colnames(data) = c("X", "Y", "Z")
   data = tibble::as_tibble(data)
