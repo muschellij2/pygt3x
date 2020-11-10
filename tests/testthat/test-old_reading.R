@@ -15,6 +15,7 @@ testthat::test_that("Reading in Old format works", {
   res = pygt3x::impute_zeros(res$data, res$dates, res$header)
   testthat::expect_equal(colnames(res), c("time", "X", "Y", "Z"))
 
+  print(head(res))
   cm <- unname(colMeans(res[, c("X", "Y", "Z")]))
   testthat::expect_equal(cm, c(
     -0.228402625555557,
