@@ -69,6 +69,14 @@ py_read_gt3x = function(path,
     print(class(data))
     print(utils::head(data))
   }
+  if (!is.matrix(data)) {
+    warning("conversion from python to R may not have worked, trying again")
+    data = reticulate:::py_to_r.numpy.ndarray(data)
+  }
+  if (!is.matrix(data)) {
+    print(data)
+    stop("conversion from python to R did not work in py_read_gt3x, failing")
+  }
   data = round_away_zero(data, 3)
   colnames(data) = c("X", "Y", "Z")
   data = tibble::as_tibble(data)
