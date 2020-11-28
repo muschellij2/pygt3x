@@ -203,6 +203,9 @@ impute_zeros = function(data, dates, header) {
                      X = ifelse(is.na(X), 0, X),
                      Y = ifelse(is.na(Y), 0, Y),
                      Z = ifelse(is.na(Z), 0, Z))
+  attr(df, "sample_rate") = header$Sample_Rate
+  attr(df, "acceleration_min") = header$Acceleration_Min
+  attr(df, "acceleration_max") = header$Acceleration_Max
   return(df)
 
 }
