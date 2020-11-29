@@ -103,6 +103,9 @@ py_read_gt3x = function(path,
   dates = reticulate::py_to_r(dates)
   dates = c(dates)
 
+  attr(data, "sample_rate") = meta$Sample_Rate
+  attr(data, "acceleration_min") = meta$Acceleration_Min
+  attr(data, "acceleration_max") = meta$Acceleration_Max
 
   L = list(
     data = data,
