@@ -85,7 +85,7 @@ jobs:
       - name: Install python dependencies
         run: |
           check = file.exists("requirements.txt")
-          if (!requireNamespace("reticulate") & check) install.packages("reticulate")
+          if (!requireNamespace("reticulate") & check) remotes::install_cran("reticulate")
           if (check) reticulate::install_miniconda()
           if (check) x = readLines("requirements.txt")
           if (check) try(reticulate::py_install(x, method = "conda", channel = c("conda-forge", "defaults", "bioconda")))

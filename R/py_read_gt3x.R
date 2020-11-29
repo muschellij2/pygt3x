@@ -117,21 +117,24 @@ py_read_gt3x = function(path,
       dates[1] == 0) {
     dates = meta$Start_Date + seq(0, nrow(data) - 1) / meta$Sample_Rate
   } else {
-    nr = as.integer(nrow(data) / length(dates))
-    if (! ( nr == as.integer(meta$Sample_Rate) ) ) {
-      warning(
-        paste0(
-          "Size of data not length(dates) * sample_rate, ",
-          "not making POSIXct dates, and returning data as is")
-      )
-      L$dates_created = FALSE
-      return(L)
+    good_dates = nrow(data) == length(dates) & inherits(dates, "POSIXct")
+    if (!good_dates) {
+      nr = as.integer(nrow(data) / length(dates))
+      if (! ( nr == as.integer(meta$Sample_Rate) ) ) {
+        warning(
+          paste0(
+            "Size of data not length(dates) * sample_rate, ",
+            "not making POSIXct dates, and returning data as is")
+        )
+        L$dates_created = FALSE
+        return(L)
+      }
+      # np = reticulate::import("numpy")
+      secs = seq(0, meta$Sample_Rate - 1)/meta$Sample_Rate
+      dates = sapply(dates, function(x) x + secs)
+      dates = c(dates)
+      dates = as.POSIXct(dates, tz = "GMT", origin = "1970-01-01")
     }
-    # np = reticulate::import("numpy")
-    secs = seq(0, meta$Sample_Rate - 1)/meta$Sample_Rate
-    dates = sapply(dates, function(x) x + secs)
-    dates = c(dates)
-    dates = as.POSIXct(dates, tz = "GMT", origin = "1970-01-01")
   }
   rm(output)
   L$dates = dates
