@@ -2,7 +2,8 @@
 output: github_document
 ---
 
-
+# PLEASE SEE
+Actigraph has released its pygt3x package at https://github.com/actigraph/pygt3x.  This is likely going to be better maintained than this repo, but it is only in python.
 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -24,7 +25,6 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/muschellij2/pygt3x/workflows/R-CMD-check/badge.svg)](https://github.com/muschellij2/pygt3x/actions)
 <!-- badges: end -->
 
-The goal of pygt3x is to ...
 
 ## Installation
 
