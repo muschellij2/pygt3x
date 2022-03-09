@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>/404.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/idle_na_locf.html</loc>
+  </url>
+  <url>
+    <loc>/reference/impute_zeros.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/py_read_gt3x.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pygt3x_required_modules.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_acc_csv.html</loc>
+  </url>
+</urlset>
